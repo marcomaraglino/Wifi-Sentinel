@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  sentinel:
+    build: .
+    container_name: wifi-sentinel-app
+    network_mode: "host" # questa modalità permette l'accesso diretto alle interfacce di rete (wlan0, etc.)
+    
+    # privileged: true serve su Linux per dare accesso completo all'hardware
+    privileged: true
+    
+    # Riavvia il container se crasha
+    restart: always
