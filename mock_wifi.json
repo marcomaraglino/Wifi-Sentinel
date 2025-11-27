@@ -1,0 +1,12 @@
+[
+  {
+    "SSID": "Wifi_Casa",
+    "BSSID": "AA:BB:CC:00:11",
+    "Encryption": "WPA2"
+  },
+  {
+    "SSID": "Free_Wifi_Open",
+    "BSSID": "DD:EE:FF:22:33",
+    "Encryption": "None"
+  }
+]
