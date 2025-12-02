@@ -4,7 +4,7 @@ import random
 from .interfaces import Subject
 
 class WifiMonitor(Subject):
-    def __init__(self, mock_mode=True):
+    def __init__(self, mock_mode=False):
         """
         Inizializza il Monitor.
         parametro mock_mode: Se True, usa dati finti. 
@@ -68,6 +68,32 @@ class WifiMonitor(Subject):
                 "encryption": "None" 
             }
         ]
+    
+    def _get_current_connection_info_windows(self):
+        """
+        Recupera il BSSID (MAC Address) della rete a cui siamo attualmente connessi.
+        """
+        try:
+            cmd = ['netsh', 'wlan', 'show', 'interfaces']
+            result = subprocess.run(cmd, capture_output=True, text=True, errors='ignore')
+            
+            connected_bssid = None
+            
+            for line in result.stdout.split('\n'):
+                line = line.strip()
+                # Cerca la riga del BSSID nello stato dell'interfaccia
+                if line.startswith("BSSID") or line.startswith("AP BSSID"):
+                    parts = line.split(":")
+                    if len(parts) > 1:
+                        # Ricostruisce il MAC (es. 7a:38:a4:f6:6d:2f)
+                        connected_bssid = ":".join(parts[1:]).strip().lower()
+                        return connected_bssid
+            return None
+        except Exception:
+            return None
+        
+    
+
 
     def _scan_real_linux(self):
         """
@@ -127,3 +153,4 @@ class WifiMonitor(Subject):
         except Exception as e:
             print(f"[ERROR] Eccezione durante la scansione: {e}")
             return []
+        
