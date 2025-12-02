@@ -18,4 +18,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Comando di avvio: esegue il main nella cartella src/
-CMD ["python", "src/main.py"]
+CMD ["python", "-u", "src/main.py"]
