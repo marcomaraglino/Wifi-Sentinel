@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  sentinel:
+    build: .
+    container_name: wifi-sentinel-app
+    network_mode: "host" # questa modalità permette l'accesso diretto alle interfacce di rete (wlan0, etc.)
+    
+    # privileged: true serve su Linux per dare accesso completo all'hardware
+    privileged: true
+    
+    # Riavvia il container se crasha
+    restart: always
+
+    # 3. NUOVA SEZIONE FONDAMENTALE:
+    # Collega il "telefono" (D-Bus) del container a quello di Ubuntu
+    volumes:
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
