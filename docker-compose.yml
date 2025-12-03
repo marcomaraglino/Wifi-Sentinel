@@ -12,7 +12,9 @@ services:
     # Riavvia il container se crasha
     restart: always
 
-    # 3. NUOVA SEZIONE FONDAMENTALE:
-    # Collega il "telefono" (D-Bus) del container a quello di Ubuntu
+    
     volumes:
+      # Collega il "telefono" (D-Bus) del container a quello di Ubuntu
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      # Mappa la cartella 'data' del tuo PC dentro '/app/data' del container
+      - ./data:/app/data
