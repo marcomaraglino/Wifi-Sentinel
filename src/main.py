@@ -9,35 +9,35 @@ sys.path.append(current_dir)
 # Importiamo la classe semplificata
 try:
     from core.subject import WifiMonitor
+    from bot_interface import SentinelBot
 except ImportError:
     sys.path.append(os.path.join(current_dir, 'src'))
     from core.subject import WifiMonitor
+    from bot_interface import SentinelBot
 
 def main():
-    print("--- TEST DI CONNETTIVITÀ DOCKER LINUX ---")
-    print("Obiettivo: Verificare che Docker veda l'antenna USB.")
-    print("-" * 50)
+    print("--- WI-FI SENTINEL (BOT MODE) ---")
+    
+    # 1. Recupera il Token e Configurazione
+    token = os.getenv("TELEGRAM_TOKEN")
+    if not token:
+        print("❌ ERRORE CRITICO: Manca il TELEGRAM_TOKEN nelle variabili d'ambiente!")
+        print("Inseriscilo nel docker-compose.yml")
+        return
 
-    monitor = WifiMonitor()
+    use_mock = os.getenv('USE_MOCK', 'False').lower() == 'true'
 
-    while True:
-        # 1. Esegui la scansione
-        success, output = monitor.simple_linux_scan()
+    # 2. Inizializza il Monitor (Il "Motore")
+    monitor = WifiMonitor(mock_mode=use_mock)
+    
+    # 3. Inizializza il Bot (L'Interfaccia)
+    bot = SentinelBot(token, monitor)
 
-        # 2. Analizza il risultato
-        if success:
-            # Se l'output è vuoto o ha solo l'intestazione, non ha trovato reti
-            if len(output.strip().split('\n')) <= 1:
-                print("⚠️  nmcli funziona ma NON vede reti. L'antenna è collegata?")
-            else:
-                print("✅ SUCCESSO! Reti rilevate:")
-                print(output) # Stampa la tabella grezza di nmcli
-        else:
-            print("❌ FALLIMENTO.")
-            print(output) # Stampa l'errore
-
-        print("\n" + "-"*30 + "\n")
-        time.sleep(5)
+    # 4. Avvia tutto
+    try:
+        bot.run()
+    except KeyboardInterrupt:
+        print("\n[SYSTEM] Arresto del sistema.")
 
 if __name__ == "__main__":
     main()
