@@ -18,3 +18,8 @@ services:
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
       # Mappa la cartella 'data' del tuo PC dentro '/app/data' del container
       - ./data:/app/data
+
+    environment:
+      - TELEGRAM_TOKEN=8455359017:AAGB3V0mePlQ-jU7GcMZ0aBd4e8RyTFtu5g
+      - SCAN_INTERVAL=5
+      - USE_MOCK=false
