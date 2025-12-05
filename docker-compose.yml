@@ -22,4 +22,3 @@ services:
     environment:
       - TELEGRAM_TOKEN=8455359017:AAGB3V0mePlQ-jU7GcMZ0aBd4e8RyTFtu5g
       - SCAN_INTERVAL=5
-      - USE_MOCK=false

@@ -24,11 +24,9 @@ def main():
         print("❌ ERRORE CRITICO: Manca il TELEGRAM_TOKEN nelle variabili d'ambiente!")
         print("Inseriscilo nel docker-compose.yml")
         return
-
-    use_mock = os.getenv('USE_MOCK', 'False').lower() == 'true'
-
-    # 2. Inizializza il Monitor (Il "Motore")
-    monitor = WifiMonitor(mock_mode=use_mock)
+        
+    # 2. Inizializza il Monitor (Il Soggetto)
+    monitor = WifiMonitor()
     
     # 3. Inizializza il Bot (L'Interfaccia)
     bot = SentinelBot(token, monitor)

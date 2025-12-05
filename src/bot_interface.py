@@ -7,7 +7,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 from core.subject import WifiMonitor
 
 class SentinelBot:
-    __init__(self, token, monitor: WifiMonitor):
+    def __init__(self, token, monitor: WifiMonitor):
         self.token = token
         self.monitor = monitor
         self.application = Application.builder().token(self.token).build()
@@ -67,4 +67,3 @@ class SentinelBot:
 
             await update.message.reply_text(response, parse_mode='Markdown')
 
-            
